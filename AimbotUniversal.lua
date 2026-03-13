@@ -74,11 +74,11 @@ end
 
 -- // [ MODULE 4: INTERFACE CONSTRUCTION ]
 local Window = Rayfield:CreateWindow({
-    Name                = "SPRP SYSTEM | V31 ELITE",
-    LoadingTitle        = "Protocolo Eye Team",
-    LoadingSubtitle     = "Full System Restore",
+    Name                = "Phanton | V32",
+    LoadingTitle        = "By Eyes Team",
+    LoadingSubtitle     = "Version 32",
     ConfigurationSaving = { Enabled = false },
-    Theme               = "Blood"
+    Theme               = "Bloom"
 })
 
 local TabAim      = Window:CreateTab("Aimbot Ultra",   4483362458)
@@ -317,4 +317,4 @@ Players.PlayerRemoving:Connect(function(Player)
     end
 end)
 
-Rayfield:Notify({Title = "V31 RESTORED", Content = "Configs e Sistemas Ativos.", Duration = 5})
+Rayfield:Notify({Title = "V31", Content = "Configs e Sistemas Ativos.", Duration = 5})
