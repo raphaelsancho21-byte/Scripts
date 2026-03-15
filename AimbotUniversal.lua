@@ -1,4 +1,7 @@
-local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
+-- [[ Phanton V32 - Pelagon UI Migration ]]
+-- Migrado de Rayfield para Petagon UI
+
+local Petagon = loadstring(game:HttpGet("https://raw.githubusercontent.com/raphaelsancho21-byte/Pentagon/refs/heads/main/Pentagon.lua"))()
 
 local Players          = game:GetService("Players")
 local RunService       = game:GetService("RunService")
@@ -66,49 +69,56 @@ local function IsVisible(TargetPart, Character)
     return Result and Result.Instance:IsDescendantOf(Character)
 end
 
-local Window = Rayfield:CreateWindow({
-    Name                = "Phanton | V32",
-    LoadingTitle        = "By Eyes Team",
-    LoadingSubtitle     = "Version 32",
-    ConfigurationSaving = { Enabled = false },
-    Theme               = "Bloom"
+local Window = Petagon:CreateWindow({
+    Name = "Phanton | Universal Aimbot",
+    LoadingTitle = "Petagon UI",
+    LoadingSubtitle = "by Eyes Team"
 })
 
-local TabAim      = Window:CreateTab("Aimbot Ultra",   4483362458)
-local TabESP      = Window:CreateTab("ESP Advanced",   4483362458)
-local TabVisuals  = Window:CreateTab("Visuals/Colors", "brush")
-local TabExploits = Window:CreateTab("Exploits",       "zap")
-local TabConfigs  = Window:CreateTab("Configs",        6031289225)
+-- [[ Tabs ]]
+local TabAim      = Window:CreateTab("Aimbot Ultra")
+local TabESP      = Window:CreateTab("ESP Advanced")
+local TabVisuals  = Window:CreateTab("Visuals/Colors")
+local TabExploits = Window:CreateTab("Exploits")
+local TabConfigs  = Window:CreateTab("Configs")
 
+-- [[ Aimbot Tab ]]
 TabAim:CreateSection("Aimbot Logic")
 TabAim:CreateToggle({Name = "Ativar Aimbot", CurrentValue = false, Callback = function(v) SPRP_SYSTEM.Aimbot.Enabled = v end})
-TabAim:CreateSlider({Name = "Suavização", Range = {1, 100}, Increment = 1, CurrentValue = 50, Callback = function(v) SPRP_SYSTEM.Aimbot.Smoothing = v / 100 end})
-TabAim:CreateDropdown({Name = "Alvo", Options = {"Head", "HumanoidRootPart"}, CurrentOption = {"Head"}, Callback = function(v) SPRP_SYSTEM.Aimbot.BodyPart = v[1] end})
+TabAim:CreateSlider({Name = "Suavização", Range = {1, 100}, CurrentValue = 50, Callback = function(v) SPRP_SYSTEM.Aimbot.Smoothing = v / 100 end})
+TabAim:CreateDropdown({Name = "Alvo", Options = {"Head", "HumanoidRootPart"}, Default = "Head", Callback = function(v) SPRP_SYSTEM.Aimbot.BodyPart = v end})
 TabAim:CreateToggle({Name = "Wall Check", CurrentValue = true, Callback = function(v) SPRP_SYSTEM.Aimbot.WallCheck = v end})
 TabAim:CreateToggle({Name = "Team Check", CurrentValue = true, Callback = function(v) SPRP_SYSTEM.Aimbot.TeamCheck = v end})
 
 TabAim:CreateSection("Auto Fire")
 TabAim:CreateToggle({Name = "Ativar Auto Fire", CurrentValue = false, Callback = function(v) SPRP_SYSTEM.Aimbot.AutoFire = v end})
-TabAim:CreateSlider({Name = "Fire Rate (tiros/s)", Range = {1, 30}, Increment = 1, CurrentValue = 10, Callback = function(v) SPRP_SYSTEM.Aimbot.FireRate = v end})
+TabAim:CreateSlider({Name = "Fire Rate (tiros/s)", Range = {1, 30}, CurrentValue = 10, Callback = function(v) SPRP_SYSTEM.Aimbot.FireRate = v end})
 
+-- [[ ESP Tab ]]
 TabESP:CreateSection("Pantsir Vision")
 TabESP:CreateToggle({Name = "Ativar ESP", CurrentValue = false, Callback = function(v) SPRP_SYSTEM.ESP.Enabled = v end})
-TabESP:CreateSlider({Name = "Tamanho do Texto", Range = {10, 25}, Increment = 1, CurrentValue = 13, Callback = function(v) SPRP_SYSTEM.ESP.FixedTextSize = v end})
+TabESP:CreateSlider({Name = "Tamanho do Texto", Range = {10, 25}, CurrentValue = 13, Callback = function(v) SPRP_SYSTEM.ESP.FixedTextSize = v end})
 TabESP:CreateToggle({Name = "Team Check", CurrentValue = false, Callback = function(v) SPRP_SYSTEM.ESP.TeamCheck = v end})
 
+-- [[ Visuals Tab ]]
 TabVisuals:CreateSection("FOV Settings")
 TabVisuals:CreateToggle({Name = "Mostrar FOV", CurrentValue = false, Callback = function(v) SPRP_SYSTEM.Visuals.FOVVisible = v end})
 TabVisuals:CreateColorPicker({Name = "Cor do FOV", Color = SPRP_SYSTEM.Visuals.FOVColor, Callback = function(v) SPRP_SYSTEM.Visuals.FOVColor = v end})
-TabVisuals:CreateSlider({Name = "Raio FOV", Range = {30, 800}, Increment = 5, CurrentValue = 100, Callback = function(v) SPRP_SYSTEM.Visuals.FOVRadius = v end})
+TabVisuals:CreateSlider({Name = "Raio FOV", Range = {30, 800}, CurrentValue = 100, Callback = function(v) SPRP_SYSTEM.Visuals.FOVRadius = v end})
 
+-- [[ Exploits Tab ]]
 TabExploits:CreateSection("Character Mods")
 TabExploits:CreateToggle({Name = "Ativar Mods", CurrentValue = false, Callback = function(v) SPRP_SYSTEM.Exploits.Enabled = v end})
-TabExploits:CreateSlider({Name = "Velocidade", Range = {16, 250}, Increment = 1, CurrentValue = 16, Callback = function(v) SPRP_SYSTEM.Exploits.WalkSpeed = v end})
+TabExploits:CreateSlider({Name = "Velocidade", Range = {16, 250}, CurrentValue = 16, Callback = function(v) SPRP_SYSTEM.Exploits.WalkSpeed = v end})
 
+-- [[ Configs Tab ]]
 TabConfigs:CreateSection("System Management")
 TabConfigs:CreateToggle({Name = "Mobile Mode (Auto-Lock)", CurrentValue = true, Callback = function(v) SPRP_SYSTEM.Configs.MobileMode = v end})
-TabConfigs:CreateKeybind({Name = "Menu Keybind", CurrentKeybind = "RightControl", HoldToInteract = false, Flag = "MenuKey", Callback = function(k) SPRP_SYSTEM.Configs.Keybind = k end})
-TabConfigs:CreateButton({Name = "Destruir Script", Callback = function() Rayfield:Destroy() end})
+TabConfigs:CreateKeybind({Name = "Menu Keybind", CurrentKey = SPRP_SYSTEM.Configs.Keybind, Callback = function(k) SPRP_SYSTEM.Configs.Keybind = k end})
+TabConfigs:CreateButton({Name = "Destruir Script", Callback = function() Petagon.PetagonGui:Destroy() end})
+
+-- Configurações de Tema Automáticas
+Window:CreateSettingsTab()
 
 local function CreateESP(Player)
     if Player == LocalPlayer then return end
@@ -272,4 +282,4 @@ Players.PlayerRemoving:Connect(function(Player)
     end
 end)
 
-Rayfield:Notify({Title = "V32", Content = "Script carregado sem comentários.", Duration = 5})
+Petagon:Notify({Title = "Phanton V32", Content = "Script migrado com sucesso para Petagon UI!", Duration = 5})
